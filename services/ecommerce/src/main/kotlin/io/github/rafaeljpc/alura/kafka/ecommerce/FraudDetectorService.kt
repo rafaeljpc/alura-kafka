@@ -36,7 +36,12 @@ fun main() {
             )
 
             Thread.sleep(500)
-            log.info("Order processed")
+            log.info(
+                """
+                Order processed
+                ------------------------------------------
+                """.trimIndent()
+            )
         }
     }
 }
