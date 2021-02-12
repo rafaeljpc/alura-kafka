@@ -50,5 +50,7 @@ private fun properties(): Properties = hashMapOf(
     ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to "localhost:9092",
     ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.jvmName,
     ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.jvmName,
-    ConsumerConfig.GROUP_ID_CONFIG to "FraudDetectorService"
+    ConsumerConfig.GROUP_ID_CONFIG to "FraudDetectorService",
+    ConsumerConfig.CLIENT_ID_CONFIG to "FraudDetectorService-${UUID.randomUUID()}",
+    ConsumerConfig.MAX_POLL_RECORDS_CONFIG to "1"
 ).toProperties()
