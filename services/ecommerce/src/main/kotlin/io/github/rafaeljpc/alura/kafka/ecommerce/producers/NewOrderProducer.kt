@@ -1,4 +1,4 @@
-package io.github.rafaeljpc.alura.kafka.ecommerce
+package io.github.rafaeljpc.alura.kafka.ecommerce.producers
 
 import mu.KotlinLogging
 import org.apache.kafka.clients.producer.KafkaProducer
