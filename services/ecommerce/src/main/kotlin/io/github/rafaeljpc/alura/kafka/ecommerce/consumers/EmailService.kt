@@ -1,31 +1,13 @@
 package io.github.rafaeljpc.alura.kafka.ecommerce.consumers
 
 import mu.KotlinLogging
-import org.apache.kafka.clients.consumer.ConsumerConfig
-import org.apache.kafka.clients.consumer.KafkaConsumer
-import org.apache.kafka.common.serialization.StringDeserializer
-import java.time.Duration
-import java.util.*
-import kotlin.reflect.jvm.jvmName
+import org.apache.kafka.clients.consumer.ConsumerRecord
 
 private val log = KotlinLogging.logger {}
 
-fun main() {
-    val consumer = KafkaConsumer<String, String>(properties())
-
-    consumer.subscribe(listOf("ECOMMERCE_SEND_EMAIL"))
-
-    while (true) {
-
-        val records = consumer.poll(Duration.ofMillis(100))
-
-        if (records.isEmpty) {
-            continue
-        }
-
-        records.forEach {
-            log.info(
-                """
+private val process: (ConsumerRecord<String, String>) -> Unit = {
+    log.info(
+        """
             ------------------------------------------
             Sending email
             key = ${it.key()}
@@ -33,22 +15,22 @@ fun main() {
             partition = ${it.partition()}
             offset = ${it.offset()}
         """.trimIndent()
-            )
+    )
 
-            Thread.sleep(500)
-            log.info(
-                """
+    Thread.sleep(500)
+    log.info(
+        """
                 email sent
                 ------------------------------------------
                 """.trimIndent()
-            )
-        }
-    }
+    )
 }
 
-private fun properties(): Properties = hashMapOf(
-    ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to "localhost:9092",
-    ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.jvmName,
-    ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.jvmName,
-    ConsumerConfig.GROUP_ID_CONFIG to "EmailService"
-).toProperties()
+fun main() {
+    KafkaConsumerService(
+        groupId = "EmailService",
+        topic = "ECOMMERCE_SEND_EMAIL",
+        callback = process
+    ).use { service -> service.run() }
+}
+

@@ -11,7 +11,7 @@ import kotlin.reflect.jvm.jvmName
 private val log = KotlinLogging.logger {}
 
 fun main() {
-    val consumer = KafkaConsumer<String, String>(properties())
+    val consumer = KafkaConsumer<String, String>(consumerProperties())
 
     consumer.subscribe(Regex("ECOMMERCE.*").toPattern())
 
@@ -39,7 +39,7 @@ fun main() {
     }
 }
 
-private fun properties(): Properties = hashMapOf(
+private fun consumerProperties(): Properties = hashMapOf(
     ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to "localhost:9092",
     ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.jvmName,
     ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.jvmName,
