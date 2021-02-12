@@ -16,13 +16,18 @@ private val log = KotlinLogging.logger {}
 
 fun main() {
     val producer = KafkaProducer<String, String>(properties())
-    val rnd = Random(System.currentTimeMillis())
-    val value = "${rnd.nextInt(1, 1000)}," +
-            "${rnd.nextInt(1, 1000)},${rnd.nextInt(1, 20) * 100}"
-    producer.send(ProducerRecord("ECOMMERCE_NEW_ORDER", value, value), producerCB).get()
 
-    val email = "Thank you for your order! We are processing your order"
-    producer.send(ProducerRecord("ECOMMERCE_SEND_EMAIL", email, email), producerCB).get()
+    repeat(100) {
+
+        val rnd = Random(System.currentTimeMillis())
+        val key = UUID.randomUUID().toString()
+        val value = "$key," +
+                "${rnd.nextInt(1, 1000)},${rnd.nextInt(1, 20) * 100}"
+        producer.send(ProducerRecord("ECOMMERCE_NEW_ORDER", key, value), producerCB).get()
+
+        val email = "Thank you for your order! We are processing your order"
+        producer.send(ProducerRecord("ECOMMERCE_SEND_EMAIL", key, email), producerCB).get()
+    }
 }
 
 private val producerCB = { data: RecordMetadata, e: Exception? ->
