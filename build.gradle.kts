@@ -7,9 +7,9 @@ plugins {
     base
     java
     application
-    kotlin("jvm") version "1.4.21"
-    kotlin("plugin.noarg") version "1.4.21" apply false
-    kotlin("plugin.allopen") version "1.4.21" apply false
+    kotlin("jvm") version "1.5.30"
+    kotlin("plugin.noarg") version "1.5.30" apply false
+    kotlin("plugin.allopen") version "1.5.30" apply false
 }
 
 if (JavaVersion.current() != JavaVersion.VERSION_11) {
@@ -100,15 +100,14 @@ subprojects {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
                 implementation(kotlin("reflect"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.+")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.4.+")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.+")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.5.+")
                 implementation("io.github.microutils:kotlin-logging:2.+")
                 implementation("ch.qos.logback:logback-classic:1.2.+")
 
                 testImplementation("org.jetbrains.kotlin:kotlin-test")
                 testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
                 testImplementation("org.junit.jupiter:junit-jupiter:5.+")
-                testImplementation("com.ninja-squad:springmockk:2.0.+")
                 testImplementation("io.mockk:mockk:1.10.+")
             }
         }
@@ -126,12 +125,14 @@ subprojects {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
                 implementation(kotlin("reflect"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.+")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.4.+")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.+")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.5.+")
+                implementation("io.github.microutils:kotlin-logging:2.+")
 
                 testImplementation("org.jetbrains.kotlin:kotlin-test")
                 testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
                 testImplementation("org.junit.jupiter:junit-jupiter:5.+")
+                testImplementation("io.mockk:mockk:1.10.+")
             }
         }
         else -> {
