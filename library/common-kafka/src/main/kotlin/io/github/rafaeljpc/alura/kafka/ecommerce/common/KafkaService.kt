@@ -5,7 +5,7 @@ import mu.KotlinLogging
 import org.apache.kafka.clients.consumer.ConsumerConfig.*
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.consumer.KafkaConsumer
-import org.apache.kafka.common.serialization.StringSerializer
+import org.apache.kafka.common.serialization.StringDeserializer
 import java.io.Closeable
 import java.time.Duration
 import java.util.*
@@ -57,7 +57,7 @@ class KafkaService<T : Any>(
     ): Map<String, String> {
         val properties = mutableMapOf<String, String>(
             BOOTSTRAP_SERVERS_CONFIG to "127.0.0.1:9092",
-            KEY_DESERIALIZER_CLASS_CONFIG to StringSerializer::class.java.name,
+            KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java.name,
             VALUE_DESERIALIZER_CLASS_CONFIG to GsonDeserializer::class.java.name,
             GROUP_ID_CONFIG to groupId,
             CLIENT_ID_CONFIG to UUID.randomUUID().toString(),
