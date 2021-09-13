@@ -12,20 +12,20 @@ fun main() {
         topic = "ECOMMERCE_NEW_ORDER",
         type = Order::class,
         parse = { record ->
-            logger.info(
+            logger.info {
                 """
                 ------------------------------------------
                 Processing new order, checking for fraud
-                ${record.key()}
-                ${record.value()}
-                ${record.partition()}
-                ${record.offset()}
+                k=${record.key()}
+                v=${record.value()}
+                part=${record.partition()}
+                offset=${record.offset()}
             """.trimIndent()
-            )
+            }
 
             Thread.sleep(5000)
 
-            logger.info("Order processed")
+            logger.info { "Order processed" }
         }
     ).run()
 }

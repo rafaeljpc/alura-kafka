@@ -33,16 +33,16 @@ class KafkaDispatcher<T> : Closeable {
         val record = ProducerRecord(topic, key, value)
         producer.send(record) { data, e ->
             if (e != null) {
-                logger.error("Erro ao enviar para o kafka", e)
+                logger.error(e) { "Erro ao enviar para o kafka" }
             } else {
-                logger.info(
+                logger.info {
                     """sucesso enviado ${data.topic()}:::partition ${data.partition()}/
                 offset ${data.offset()}/ ts ${
                         if (data.hasTimestamp())
                             DT_FORMATTER.format(Instant.ofEpochMilli(data.timestamp()))
                         else "N/A"
                     } """.trimIndent()
-                )
+                }
             }
         }.get()
     }

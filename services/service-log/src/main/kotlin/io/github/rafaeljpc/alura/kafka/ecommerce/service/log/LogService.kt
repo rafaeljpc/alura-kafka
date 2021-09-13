@@ -3,7 +3,7 @@ package io.github.rafaeljpc.alura.kafka.ecommerce.service.log
 import io.github.rafaeljpc.alura.kafka.ecommerce.common.KafkaService
 import mu.KotlinLogging
 import org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG
-import org.apache.kafka.common.serialization.StringSerializer
+import org.apache.kafka.common.serialization.StringDeserializer
 import java.util.regex.Pattern
 
 private val logger = KotlinLogging.logger { }
@@ -14,10 +14,10 @@ fun main() {
         topicPattern = Pattern.compile("ECOMMERCE.*"),
         type = String::class,
         properties = mapOf(
-            VALUE_DESERIALIZER_CLASS_CONFIG to StringSerializer::class.java.name
+            VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java.name
         ),
         parse = { record ->
-            logger.info(
+            logger.info {
                 """
                 ---------------------------------------------
                 LOG: ${record.topic()}
@@ -26,7 +26,7 @@ fun main() {
                 ${record.partition()}
                 ${record.offset()}
             """.trimIndent()
-            )
+            }
         }
     ).run()
 }

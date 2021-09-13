@@ -17,7 +17,7 @@ fun main() {
 
     orderDispatcher.send("ECOMMERCE_NEW_ORDER", order.userId, order)
     emailDispatcher.send(
-        "ECOMMERCE_SEND_MAIL", order.userId, """
+        "ECOMMERCE_SEND_EMAIL", order.userId, """
         Thank you for your order! We are processing your order
         Order Number ${order.orderId}
     """.trimIndent()

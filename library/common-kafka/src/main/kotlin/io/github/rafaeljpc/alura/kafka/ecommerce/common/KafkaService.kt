@@ -43,7 +43,7 @@ class KafkaService<T : Any>(
         while (true) {
             val records = consumer.poll(Duration.ofMillis(1000)).toList()
             if (records.isNotEmpty()) {
-                logger.info("Encontrei ${records.size} registros")
+                logger.info { "Encontrei ${records.size} registros" }
 
                 records.forEach { parse.invoke(it) }
             }
@@ -61,7 +61,7 @@ class KafkaService<T : Any>(
             VALUE_DESERIALIZER_CLASS_CONFIG to GsonDeserializer::class.java.name,
             GROUP_ID_CONFIG to groupId,
             CLIENT_ID_CONFIG to UUID.randomUUID().toString(),
-            TYPE_CONFIG to type::class.java.name,
+            TYPE_CONFIG to type.java.name,
         )
         properties.putAll(overrideProperties)
         return properties

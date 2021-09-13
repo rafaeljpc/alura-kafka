@@ -18,7 +18,6 @@ class GsonDeserializer<T : Any> : Deserializer<T> {
         val typeName = configs[TYPE_CONFIG]!!.toString()
 
         try {
-
             @Suppress("UNCHECKED_CAST")
             type = Class.forName(typeName) as Class<T>
         } catch (e: ClassCastException) {
@@ -26,5 +25,5 @@ class GsonDeserializer<T : Any> : Deserializer<T> {
         }
     }
 
-    override fun deserialize(topic: String?, data: ByteArray?): T = gson.fromJson(data.toString(), type)
+    override fun deserialize(topic: String?, data: ByteArray?): T = gson.fromJson(String(data!!), type)
 }
