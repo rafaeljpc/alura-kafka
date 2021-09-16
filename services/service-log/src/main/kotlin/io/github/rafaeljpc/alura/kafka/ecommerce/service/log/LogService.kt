@@ -21,10 +21,10 @@ fun main() {
                 """
                 ---------------------------------------------
                 LOG: ${record.topic()}
-                ${record.key()}
-                ${record.value()}
-                ${record.partition()}
-                ${record.offset()}
+                key=${record.key()}
+                value=${record.value()}
+                partition=${record.partition()}
+                offset=${record.offset()}
             """.trimIndent()
             }
         }

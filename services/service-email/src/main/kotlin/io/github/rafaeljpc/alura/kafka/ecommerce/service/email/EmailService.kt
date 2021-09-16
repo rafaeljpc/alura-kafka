@@ -20,10 +20,10 @@ fun main() {
                 """
                 ---------------------------------------------------------------
                 Send email
-                ${record.key()}
-                ${record.value()}
-                ${record.partition()}
-                ${record.offset()}                
+                key=${record.key()}
+                value=${record.value()}
+                partition=${record.partition()}
+                record=${record.offset()}                
             """.trimIndent()
             }
 
