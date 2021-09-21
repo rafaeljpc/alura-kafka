@@ -1,10 +1,14 @@
 package io.github.rafaeljpc.alura.kafka.ecommerce.service.fraud.detector
 
+import io.github.rafaeljpc.alura.kafka.ecommerce.common.KafkaDispatcher
 import io.github.rafaeljpc.alura.kafka.ecommerce.common.KafkaService
 import io.github.rafaeljpc.alura.kafka.ecommerce.model.Order
 import mu.KotlinLogging
+import java.math.BigDecimal
 
 private val logger = KotlinLogging.logger { }
+
+private val orderDispatcher = KafkaDispatcher<Order>()
 
 fun main() {
     KafkaService(
@@ -23,9 +27,19 @@ fun main() {
             """.trimIndent()
             }
 
-            Thread.sleep(5000)
+            Thread.sleep(2000)
 
-            logger.info { "Order processed" }
+            val order = record.value()
+
+            if (isFraud(order)) {
+                logger.info { "Fraud detected order=$order" }
+                orderDispatcher.send("ECOMMERCE_ORDER_REJECTED", record.key(), order)
+            } else {
+                logger.info { "Order processed" }
+                orderDispatcher.send("ECOMMERCE_ORDER_APPROVED", record.key(), order)
+            }
         }
     ).run()
 }
+
+private fun isFraud(order: Order) = BigDecimal(4500) <= order.amount
