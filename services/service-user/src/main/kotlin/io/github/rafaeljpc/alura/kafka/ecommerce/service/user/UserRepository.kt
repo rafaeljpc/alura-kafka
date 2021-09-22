@@ -2,6 +2,7 @@ package io.github.rafaeljpc.alura.kafka.ecommerce.service.user
 
 import java.sql.Connection
 import java.sql.DriverManager
+import java.sql.ResultSet
 
 object UserRepository {
     private const val URL = "jdbc:sqlite:build/users_database.db"
@@ -25,11 +26,21 @@ object UserRepository {
         return rs.next()
     }
 
-    fun allUsers(): List<String> {
+    fun findByEmail(email: String): User? {
+        val ps = connection.prepareStatement("select * from Users where email=? limit 1")
+        ps.setString(1, email)
+        val rs = ps.executeQuery()
+        if (!rs.next()) {
+            return null
+        }
+        return rsToObject(rs)
+    }
+
+    fun allUsers(): List<User> {
         val rs = connection.prepareStatement("select * from Users").executeQuery()
-        val result = mutableListOf<String>()
+        val result = mutableListOf<User>()
         while (rs.next()) {
-            result.add(rs.getString("UUID") + rs.getString("email"))
+            result.add(rsToObject(rs))
         }
         return result
     }
@@ -40,4 +51,9 @@ object UserRepository {
         ps.setString(2, email)
         ps.execute()
     }
+
+    private fun rsToObject(rs: ResultSet): User = User(
+        uuid = rs.getString("UUID"),
+        email = rs.getString("email")
+    )
 }

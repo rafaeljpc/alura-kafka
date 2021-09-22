@@ -28,6 +28,7 @@ fun main() {
 
             if (!UserRepository.exists(record.value().email)) {
                 UserRepository.insertUser(UUID.randomUUID().toString(), record.value().email)
+                logger.info { "New user created ${UserRepository.findByEmail(record.value().email)}" }
             }
         }
     ).run()
