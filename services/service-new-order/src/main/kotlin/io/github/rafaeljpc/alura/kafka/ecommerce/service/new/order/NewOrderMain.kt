@@ -5,7 +5,7 @@ import io.github.rafaeljpc.alura.kafka.ecommerce.model.Order
 import java.math.BigDecimal
 import java.util.*
 
-private const val QTD = 10
+private const val QTD = 30
 
 fun main() {
     val orderDispatcher = KafkaDispatcher<Order>()
