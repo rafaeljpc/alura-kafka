@@ -27,6 +27,7 @@ class KafkaDispatcher<T> : Closeable {
         BOOTSTRAP_SERVERS_CONFIG to "127.0.0.1:9092",
         KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java.name,
         VALUE_SERIALIZER_CLASS_CONFIG to GsonSerializer::class.java.name,
+        ACKS_CONFIG to "all"
     )
 
     fun send(topic: String, key: String, value: T) {
